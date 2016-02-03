@@ -26,7 +26,7 @@ Enter URL : <input type="text" class="Input" name="target" value="<?php if(isset
 				<?php
 if(isset($_POST['target'],$_POST['submit']) && filter_var($_POST['target'],FILTER_VALIDATE_URL))
 {
-	//extract only usefull part of input from user
+	  //extract only usefull part of input from user
     require('subdomains.inc');
     $targ = parse_url($_POST['target']);
     $target = $targ['host'];
@@ -38,36 +38,35 @@ if(isset($_POST['target'],$_POST['submit']) && filter_var($_POST['target'],FILTE
         $url = "http://".$val.".".$target;
         $ch[$i] = curl_init($url); //Initialize a cURL session
         curl_setopt($ch[$i], CURLOPT_PORT, 80); //Set an option for a cURL transfer
-		curl_setopt($ch[$i], CURLOPT_RETURNTRANSFER, true);//Set an option for a cURL transfer
+				curl_setopt($ch[$i], CURLOPT_RETURNTRANSFER, true);//Set an option for a cURL transfer
         $i++; //i = 1
     }
-	$numberof = $i; //numberof = 1
-	$mh = curl_multi_init(); //Allows the processing of multiple cURL handles asynchronously.
-	for($i=0 ; $i < $numberof ; $i++) //loop as long as the forearch above is true
-	{
-		curl_multi_add_handle($mh,$ch[$i]); //Add a normal handel to a multi handle
-	}
-	$null = NULL;
-	try 
-	{
-		curl_multi_exec($mh,$null);
-	} 
-	catch(Exception $e) 
-	{
-		echo "Could Not Execute";
-	}
-	for($i=0 ; $i < $numberof ; $i++) //loop as long as the forearch above is true
-	{
-		if(!curl_error($ch[$i]) && !strstr(curl_multi_getcontent($ch[$i]))) 
+		$numberof = $i; //numberof = 1
+		$mh = curl_multi_init(); //Allows the processing of multiple cURL handles asynchronously.
+		for($i=0 ; $i < $numberof ; $i++) //loop as long as the forearch above is true
 		{
-			echo '<span style="color: #F00;"> http://'.htmlentities($Subdomains[$i].".".$target).'</span> exists<br />';
+			curl_multi_add_handle($mh,$ch[$i]); //Add a normal handel to a multi handle
 		}
-		curl_multi_remove_handle($mh,$ch[$i]);
-		curl_close($ch[$i]);
-	}
-	curl_multi_close($mh); //Closes a set of cURL handles.
+		$null = NULL;
+		try
+		{
+			curl_multi_exec($mh,$null); //Processes each of the handles in the stack.
+		}
+		catch(Exception $e) //Catch error
+		{
+			echo "Could Not Execute"; //Display very informative error text
+		}
+		for($i=0 ; $i < $numberof ; $i++) //loop as long as the forearch above is true
+		{
+			if(!curl_error($ch[$i]) && empty(curl_multi_getcontent($ch[$i])))
+			{
+				echo '<span style="color: #F00;"> http://'.htmlentities($Subdomains[$i].".".$target).'</span> exists<br />';
+			}
+			curl_multi_remove_handle($mh,$ch[$i]); //Close Connection
+			curl_close($ch[$i]); //Close Connection
+		}
+		curl_multi_close($mh); //Closes a set of cURL handles.
 }
 ?>
 			</body>
 		</html>
-		

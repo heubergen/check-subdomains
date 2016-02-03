@@ -51,7 +51,7 @@ for($x = 0; $x < $count; $x++)
 
     echo "Trying {$site}: {$ip}\n";
 }
-
+echo ($site);
 echo "\n[+] Finished.\n";
 
 ?>
