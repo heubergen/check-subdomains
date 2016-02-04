@@ -6,6 +6,12 @@ set_time_limit(0);
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Subdomain Scanner</title>
+		<!-- Material Design Lite -->
+    <script src="https://code.getmdl.io/1.1.1/material.min.js"></script>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.indigo-pink.min.css">
+		<link rel="stylesheet" href="css/form.css">
+    <!-- Material Design icon font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	</head>
 	<body>
 		<?php
@@ -19,10 +25,13 @@ if(!file_exists('subdomains.inc'))
     exit();
 }
 ?>
-		<form action="" method="POST">
-Enter URL : <input type="text" class="Input" name="target" value="<?php if(isset($_POST['target']))
-{echo htmlentities($_POST['target']);}?>" placeholder="http://example.com" size="50" />
-					<input type="submit" name="submit" class="Button" value="Scan" />
+<form action="#" method="POST">
+	<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+		<input type="text" class="mdl-textfield__input" name="target" id="sample3" value="<?php if(isset($_POST['target'])) {echo htmlentities($_POST['target']);}?>">
+		<label class="mdl-textfield__label" for="sample3">URL</label>
+		<input type="submit" name="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect own-button" value="Scan" />
+	</div>
+</form>
 <br />
 <br />
 <?php
