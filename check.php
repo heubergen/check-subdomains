@@ -9,11 +9,23 @@ set_time_limit(0);
 		<!-- Material Design Lite -->
     <script src="https://code.getmdl.io/1.1.1/material.min.js"></script>
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.indigo-pink.min.css">
-		<link rel="stylesheet" href="css/form.css">
     <!-- Material Design icon font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<!-- CSS for form -->
+		<link rel="stylesheet" href="css/form.css">
 	</head>
 	<body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+			<header class="mdl-layout__header">
+			<div class="mdl-layout__header-row">
+				<!-- Title -->
+				<span class="mdl-layout-title">Title</span>
+				<!-- Add spacer, to align navigation to the right -->
+				<div class="mdl-layout-spacer"></div>
+			</div>
+		</header>
+		<main class="mdl-layout__content">
+	<div class="page-content">
 		<?php
 function is_ipv4($ip)
 {
@@ -25,7 +37,7 @@ if(!file_exists('subdomains.inc'))
     exit();
 }
 ?>
-<form action="#" method="POST">
+<form action="" method="POST">
 	<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 		<input type="text" class="mdl-textfield__input" name="target" id="sample3" value="<?php if(isset($_POST['target'])) {echo htmlentities($_POST['target']);}?>">
 		<label class="mdl-textfield__label" for="sample3">URL</label>
@@ -82,9 +94,15 @@ if(isset($_POST['target'],$_POST['submit']) && filter_var($_POST['target'],FILTE
 			}
 			curl_multi_close($mh); //Closes a set of cURL handles.
 		}
-else {
+elseif (isset($_POST['target']))	{
 echo ("URL is invalid. URL must be formatted as: http(s)://example.com (for compatibility reasons)");
 }
+else {
+
+}
 ?>
+</div>
+</main>
+</div>
 				</body>
 			</html>

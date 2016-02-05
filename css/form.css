@@ -1,9 +1,7 @@
 body {
-  padding: 20px;
   background: #fafafa;
   position: relative;
-  width: 85%;
-  height: 90%;
+  min-width: 85%;
   min-height: 90%;
 }
 .own-button {
