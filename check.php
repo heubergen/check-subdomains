@@ -13,6 +13,8 @@ set_time_limit(0);
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<!-- CSS for form -->
 		<link rel="stylesheet" href="css/form.css">
+		<!-- Responsive Table, thanks to @geoffyuen -->
+		<link href="css/responsive_table.css" rel="stylesheet">
 	</head>
 	<body>
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -49,6 +51,11 @@ if(!file_exists('subdomains.inc'))
 <?php
 if(isset($_POST['target'],$_POST['submit']) && filter_var($_POST['target'],FILTER_VALIDATE_URL))
 {
+		echo '<table id="subdomains">';
+		echo "<caption>Subdomains</caption>";
+		echo "<thead>";
+		echo "<tr><th>Domain<th>IP";
+		echo "<tbody>";
     require('subdomains.inc');
     $targ = parse_url($_POST['target']);
     $target = $targ['host'];
@@ -82,12 +89,12 @@ if(isset($_POST['target'],$_POST['submit']) && filter_var($_POST['target'],FILTE
 			{
 				if(!curl_error($ch[$i]) && empty(curl_multi_getcontent($ch[$i])))
 				{
-					echo '<span style="color: #F00;"> http://'.htmlentities($Subdomains[$i].".".$target).'</span> exists';
+					echo "<tr>";
+					echo "<td>".'http://'.htmlentities($Subdomains[$i].".".$target)."</td>";
 					$site = htmlentities($Subdomains[$i].".".$target);
 					$ip = is_ipv4(gethostbyname($site));
-					echo "(ip:";
-					echo "$ip";
-					echo ")<br />";
+					echo "<td>"."$ip"."</td>";
+					echo "</tr>";
 				}
 				curl_multi_remove_handle($mh,$ch[$i]); //Close Connection
 				curl_close($ch[$i]); //Close Connection
@@ -101,6 +108,7 @@ else {
 
 }
 ?>
+</table>
 </div>
 </main>
 </div>
