@@ -6,6 +6,7 @@ $Subdomains = array(
 "accounts",
 "admin",
 "administrator",
+"api",
 "articles",
 "auth",
 "authorize",
